@@ -12,11 +12,27 @@ if (isset($_POST['enviar'])) {
 	$clave2 = $_POST['clave2'];
 
 	//validar nuevamente las contraseñas
-	if ($clave != $clave2 || $clave.length <7) {
+	if ($clave != $clave2 || strlen($clave)<7) {
 		$respuesta = "Las contraseñas no coinciden o son menores a 7 caracteres";
-	}
+	}else{
+		//inserción en la bd
+		$consulta = "INSERT INTO `usuarios` (`nombre_completo`, `correo`, `celular`, `clave`) VALUES ( '$nombre_completo', '$correo', '$celular', '$clave')";
+		$conexion = $GLOBALS['enlace'];
+		$ejecutar = $conexion->query($consulta);
 
-	//conectarnos a la BD
+
+		if ($ejecutar === TRUE) {
+		  	echo "<div class='alert alert-success' role='alert'>
+  				Usuario creado correctamente, ahora podrá <a href='login.php'>inicia sesión</a><br>
+			</div>";
+		} else {
+			echo "<div class='alert alert-danger' role='alert'>
+  				Error, no se pudo crear, verifique los campos<br>
+			</div>";	
+		  echo " <br>";
+		}
+		mysqli_close($enlace);
+	}
 
 }
 
