@@ -1,3 +1,31 @@
+<?php
+
+include 'conexion.php';
+
+if (isset($_POST['enviar'])) {
+	//1. recibimos los datos
+	$usuario = $_POST['usuario'];
+	$clave = $_POST['clave'];
+ 
+ 	//2. consultamos en base de datos
+	$conexion = $GLOBALS['enlace'];
+	$consulta = "SELECT * FROM `usuarios` WHERE (`correo` = '$usuario' OR `celular` = '$usuario') AND `clave` = '$clave'";
+
+	$ejecutarConsulta = $conexion->query($consulta);
+
+	if (mysqli_num_rows($ejecutarConsulta) == 1) {
+		$respuesta = "<div class='alert alert-success' role='alert'> Inicio de sesión correcto<br></div>";
+	}else{
+		$respuesta = "<div class='alert alert-danger' role='alert'>
+	  			Los datos de inicio de sesión no coinciden, verifique por favor <br></div>";
+	}
+
+	echo $respuesta;
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -20,8 +48,8 @@
 					</div>
 					<form name="login" action="" method="POST">
 					  	<div class="form-group">
-						    <label for="exampleInputEmail1">Usuario</label>
-						    <input type="email" class="form-control" id="usuario" name="usuario" aria-describedby="emailHelp">
+						    <label for="exampleInputEmail1">Correo o Celular</label>
+						    <input type="text" class="form-control" id="usuario" name="usuario" aria-describedby="emailHelp">
 					    	<small id="emailHelp" class="form-text text-muted">No compartiremos tu información personal.</small>
 					  	</div>
 					  	<div class="form-group">
@@ -33,6 +61,7 @@
 				</div>
 				<div class="col-md-3"></div>
 			</div>
+
 		</section>
 		<footer>
 			<p>Mensajes App - creado para mostrar Owasp 2020 ©</p>
