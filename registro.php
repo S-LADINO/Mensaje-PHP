@@ -33,7 +33,10 @@ if (isset($_POST['enviar'])) {
 			}			
 		}else{
 			//4. inserción en la bd
-			$consultaRegistro = "INSERT INTO `usuarios` (`nombre_completo`, `correo`, `celular`, `clave`) VALUES ( '$nombre_completo', '$correo', '$celular', '$clave')";
+			//4.1 ciframos la clave
+			$claveCifrada = md5(md5($clave));
+
+			$consultaRegistro = "INSERT INTO `usuarios` (`nombre_completo`, `correo`, `celular`, `clave`) VALUES ( '$nombre_completo', '$correo', '$celular', '$claveCifrada')";
 		
 			$ejecutar = $conexion->query($consultaRegistro);
 

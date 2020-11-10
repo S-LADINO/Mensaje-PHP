@@ -5,12 +5,21 @@ include 'conexion.php';
 if (isset($_POST['enviar'])) {
 	//1. recibimos los datos
 	$usuario = $_POST['usuario'];
+	$usuarioLimpio = str_replace('"', "", $usuario);
+	$usuarioLimpio = str_replace("'", "", $usuarioLimpio);
+	$usuarioLimpio = str_replace("=", "", $usuarioLimpio);
+	$usuarioLimpio = str_replace(" ", "", $usuarioLimpio);
+	$usuarioLimpio = str_replace(";", "", $usuarioLimpio);
+	$usuarioLimpio = str_replace("--", "", $usuarioLimpio);
+
 	$clave = $_POST['clave'];
+	$claveCifrada = md5(md5($clave));
  
  	//2. consultamos en base de datos
 	$conexion = $GLOBALS['enlace'];
-	$consulta = "SELECT * FROM `usuarios` WHERE (`correo` = '$usuario' OR `celular` = '$usuario') AND `clave` = '$clave'";
+	$consulta = "SELECT * FROM `usuarios` WHERE (`correo` = '$usuarioLimpio' OR `celular` = '$usuarioLimpio') AND `clave` = '$claveCifrada'";
 
+	
 	$ejecutarConsulta = $conexion->query($consulta);
 
 	if (mysqli_num_rows($ejecutarConsulta) == 1) {
@@ -21,7 +30,7 @@ if (isset($_POST['enviar'])) {
 	}
 
 	echo $respuesta;
-
+	mysqli_close($enlace);
 }
 
 ?>
