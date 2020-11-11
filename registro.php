@@ -11,6 +11,21 @@ if (isset($_POST['enviar'])) {
 	$clave = $_POST['clave'];
 	$clave2 = $_POST['clave2'];
 
+	function limpiarCampos($campo){
+		$campoLimpio = str_replace('"', "", $campo);
+		$campoLimpio = str_replace("'", "", $campoLimpio);
+		$campoLimpio = str_replace("=", "", $campoLimpio);
+		$campoLimpio = str_replace(" ", "", $campoLimpio);
+		$campoLimpio = str_replace(";", "", $campoLimpio);
+		$campoLimpio = str_replace("--", "", $campoLimpio);
+
+		return $campoLimpio;
+	}
+
+	$nombre_completo = limpiarCampos($nombre_completo);
+	$celular = limpiarCampos($celular);
+	$correo = limpiarCampos($correo);
+
 	//2. validar nuevamente las contraseñas
 	if ($clave != $clave2 || strlen($clave)<7) {
 		$respuesta = "Las contraseñas no coinciden o son menores a 7 caracteres";
