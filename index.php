@@ -1,5 +1,4 @@
 <?php
-
 	include 'conexion.php';
 	
 	if(!isset($_SESSION['id_usuario'])) {
@@ -9,10 +8,7 @@
 	function mostrarMensajes(){
 		$conexion = $GLOBALS['enlace'];
 		$consulta = "SELECT `mensaje`.*,`usuarios`.`nombre_completo` FROM `mensaje` JOIN `usuarios` where `mensaje`.`id_usuario` = `usuarios`.`id_usuario`";
-
 		$ejecutarConsulta = $conexion->query($consulta);
-
-
 		echo "<table class='table table-striped table-bordered' >"; 
 		echo "<tr>"; 
 		echo "<td><b>Id mensaje</b></td>"; 
@@ -20,7 +16,6 @@
 		echo "<td><b>Fecha</b></td>";
 		echo "<td><b>Autor</b></td>";  
 		echo "</tr>";
-
 		$contador = 0;
 		while($row = $ejecutarConsulta->fetch_array(MYSQLI_NUM))
 		{
@@ -33,13 +28,9 @@
 			$contador++;
 			echo "</tr>";
 		} 
-
 		echo "</table>";
 	}
-
-
 ?>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -52,6 +43,7 @@
 		<header>
 			<h1>mensajes App</h1>
 			<h2>Inicio de sesión</h2>
+			<h2>Listado de mensajes</h2>
 		</header>
 		<section>
 			<div class="row">
@@ -70,7 +62,6 @@
 					</div>
 				</div>
 			</div>
-
 		</section>
 		<footer>
 			<p>Mensajes App - creado para mostrar Owasp 2020 ©</p>
